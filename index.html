@@ -1,26 +1,53 @@
 <!DOCTYPE html>
 <html>
-
 <head>
+    <title>Hello World</title>
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
     <script src="jsforce.js"></script>
     <script>
-        jsforce.browser.init({
-            clientId: "3MVG9PE4xB9wtoY8tdKeVSrBMfeVKn0mguBA8Ok0DidWuKdQbp4bVvj.PIWWiPF4mDk7nIhAuZpyW8uyGTTMV",
-            redirectUri: "http://localhost:8080/callback.html",
-            proxyUrl: "https://node-salesforce-proxy.herokuapp.com/proxy/"
-        });
-        jsforce.browser.on('connect', function(conn) {
-            conn.query('SELECT Id, Name FROM Account', function(err, res) {
+        var con;
+        (function initialize() {
+             jsforce.browser.init({
+                clientId: "3MVG9PE4xB9wtoY8tdKeVSrBMfeVKn0mguBA8Ok0DidWuKdQbp4bVvj.PIWWiPF4mDk7nIhAuZpyW8uyGTTMV",
+                redirectUri: "http://localhost:8080/callback.html",
+                proxyUrl: "https://node-salesforce-proxy.herokuapp.com/proxy/"
+             });
+             jsforce.browser.on('connect', function(conn){
+                con = conn;
+             });
+        })();
+        function getAccounts() {
+            con.query('SELECT Name FROM Account', function(err, res) {
                 if (err) {
                     return console.error(err);
                 }
                 console.log(res);
             });
-        });
+        }
+        function getVisitas() {
+            var query = 'Name, Bitacora_Lk__c, Check_In_Latitud__c, Check_In_Longitud__c';
+            con.query('SELECT ' + query + ' FROM PRV_Visita_Preventa__c', function(err, res) {
+                if (err) {
+                    return console.error(err);
+                }
+                console.log(res);
+            });
+        }
+        function getVisitasByWebServices() {
+            var user = { 'sUsername': 'Dev2 RICA'};
+            con.apex.post('/PRV_Visita_Preventa__c/', user, function(err, res){
+                if(err) {
+                    return console.log(err);
+                }
+                console.log(res);
+            });
+        }
     </script>
 </head>
 
 <body>
     <div><button onclick="javascript:jsforce.browser.login();">Login</button></div>
+    <div><button onclick="getVisitas();">Nombre cuentas</button></div>
+    <div><button onclick="getVisitasByWebServices();">ID cuentas</button></div>
 </body>
 </html>
