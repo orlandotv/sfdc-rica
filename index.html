@@ -34,8 +34,8 @@
             });
         }
         function getVisitasByWebServices() {
-            var user = { 'sUsername': 'Dev2 RICA'};
-            con.apex.post('/PRV_Visita_Preventa__c/', user, function(err, res){
+            var body = { 'sUsername': 'dev2rica@rica.com.mx.parcial02'};
+            con.apex.post('/PRV_Visita_Preventa__c/', body, function(err, res){
                 if(err) {
                     return console.log(err);
                 }
