@@ -8,9 +8,9 @@
         var con;
         (function initialize() {
              jsforce.browser.init({
-                clientId: "3MVG9PE4xB9wtoY8tdKeVSrBMfeVKn0mguBA8Ok0DidWuKdQbp4bVvj.PIWWiPF4mDk7nIhAuZpyW8uyGTTMV",
-                redirectUri: "http://localhost:8080/callback.html",
-                proxyUrl: "https://node-salesforce-proxy.herokuapp.com/proxy/"
+                clientId: '3MVG9PE4xB9wtoY8tdKeVSrBMfeVKn0mguBA8Ok0DidWuKdQbp4bVvj.PIWWiPF4mDk7nIhAuZpyW8uyGTTMV',
+                redirectUri: 'http://localhost:8080/callback.html',
+                proxyUrl: 'https://node-salesforce-proxy.herokuapp.com/proxy/'
              });
              jsforce.browser.on('connect', function(conn){
                 con = conn;
@@ -34,8 +34,17 @@
             });
         }
         function getVisitasByWebServices() {
-            var body = { 'sUsername': 'dev2rica@rica.com.mx.parcial02'};
-            con.apex.post('/PRV_Visita_Preventa__c/', body, function(err, res){
+            var body = { 'Username_Usuario_Fx': 'dev2rica@rica.com.mx.parcial02' };
+            con.apex.post('/PRV_Visita_Preventa_post/*', body, function(err, res){
+                if(err) {
+                    return console.log(err);
+                }
+                console.log(res);
+            });
+        }
+        function getRutaClienteByWebServices() {
+            var body = { 'lst_RCte_id': [ 'a033D000000EjeYQAS', 'a033D000000FZ9zQAG' ] };
+            con.apex.post('/Ruta_de_Cliente_post/*', body, function(err, res) {
                 if(err) {
                     return console.log(err);
                 }
@@ -48,6 +57,7 @@
 <body>
     <div><button onclick="javascript:jsforce.browser.login();">Login</button></div>
     <div><button onclick="getVisitas();">Nombre cuentas</button></div>
-    <div><button onclick="getVisitasByWebServices();">ID cuentas</button></div>
+    <div><button onclick="getVisitasByWebServices();">Get Visitas</button></div>
+    <div><button onclick="getRutaClienteByWebServices();">Get Ruta Clientes</button></div>
 </body>
 </html>
