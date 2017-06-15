@@ -34,8 +34,9 @@
             });
         }
         function getVisitasByWebServices() {
-            var body = { 'Username_Usuario_Fx': 'dev2rica@rica.com.mx.parcial02' };
-            con.apex.post('/PRV_Visita_Preventa_post/*', body, function(err, res){
+            var body = { 'Username_Usuario_Fx': 'dev2rica@rica.com.mx.parcial02', 'sFecha': '12/06/2017' };
+            //con.apex.post('/PRV_Visita_Preventa_post/*', body, function(err, res){
+            con.apex.get('/PRV_Visita_Preventa_get/*', body, function(err, res ) {
                 if(err) {
                     return console.log(err);
                 }
